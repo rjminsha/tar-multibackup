@@ -84,6 +84,37 @@ To make sure the backup is executed automatically and recurring, we're going to 
 
     0 5 * * *        root       /usr/local/bin/multibackup &>/dev/null
 
+#### Launchd configuration (mac)
+references: 
+- [simple launchd guide](https://killtheyak.com/schedule-jobs-launchd/) 
+- [launchd](https://developer.apple.com/library/archive/documentation/MacOSX/Conceptual/BPSystemStartup/Chapters/CreatingLaunchdJobs.html#//apple_ref/doc/uid/TP40001762-104142)
+- [problem](https://apple.stackexchange.com/questions/338213/how-to-run-a-launchagent-that-runs-a-script-which-causes-failures-because-of-sys)
+- [arg](https://www.arqbackup.com/)
+- [restic](https://restic.readthedocs.io/)
+
+``` 
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <!-- The label should be the same as the filename without the extension -->
+    <string>my.backup</string>
+    <key>ProgramArguments</key>
+    <array>
+        <string>/Users/robbieminshall/code/gh/tar-multibackup/multibackup</string>
+    </array>
+    <!-- Run backup every 12 hours -->
+    <key>StartInterval</key>
+    <integer>43200</integer><!-- seconds -->
+    <key>StandardOutPath</key>
+    <string>/Users/robbieminshall/logs/backup.log</string>
+    <key>StandardErrorPath</key>
+    <string>/Users/robbieminshall/logs/backup.err</string>
+</dict>
+</plist>
+``` 
+
 ### Version
 1.2.0
 
